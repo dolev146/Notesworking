@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        /* * {
+            outline: black solid 5px;
+        } */
+
+        /* background image */
+        body {
+            background-image: url("tile.jpg");
+            position: relative;
+        }
+
+        /* heading */
+        #heading {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            font-size: 4em;
+        }
+
+        /* outer div of the form */
+        .outer {
+            border: 3px solid lightcoral;
+            text-align: center;
+            padding: 0.5%;
+            background-image: url("formbg.jpg");
+            width: 50%;
+            margin-left: 50%;
+            margin-top: 8%;
+            transform: translateY(-50%) translateX(-50%);
+        }
+
+        /* text-emphasis of the form */
+        textarea {
+            margin-top: 1%;
+
+        }
+
+        /* input from the form */
+        input {
+            margin-top: 1%;
+        }
+
+        /* inner div of the form */
+        .inner {
+            margin-right: auto;
+            font-size: 2em;
+            font-family: fantasy;
+        }
+
+
+        #note {
+            display: flex;
+            flex-wrap: wrap;
+            height: 250px;
+            position: relative;
+        }
+
+        #container {
+            overflow: auto;
+            display: flex;
+            position: relative;
+        }
+
+        /* #container>#note>div>div {
+            overflow: auto;
+            word-wrap: break-word;
+            position: absolute;
+            top: 12%;
+            width: 180px;
+            height: 150px;
+         } */
+        /* #container>#note>div> div ~div {
+            margin-top:5px;
+            width: 180px;
+            height: 24px;
+        } */
+    </style>
+</head>
+
+<body>
+
+    <!-- heading of the webpage -->
+    <h1 id="heading">My Task`s Board</h1>
+    <!-- inserting the data to the note -->
+
+    <div class="outer">
+        <div class="inner">
+            <label for="content">insert content : </label><textarea id="content" name="dolev" rows="4"
+                cols="100"></textarea>
+        </div>
+        <div class="inner">
+            <label for="date">insert date : </label><input type="date" id="date">
+        </div>
+        <div class="inner">
+            <label for="time">insert time : </label><input type="time" id="time">
+        </div>
+        <button id="createnote">create note</button>
+        <button id="reset">reset</button>
+    </div>
+
+
+    <!-- contain the notes  -->
+    <div id="container">
+        <!-- div of the Notes -->
+        <div id="note"></div>
+    </div>
+    <script>
+        //creating note
+        let id = 0;
+        let Notes = [];
+        let content = document.querySelector("#content");
+        let date = document.querySelector("#date")
+        let time = document.querySelector("#time")
+        create = document.querySelector("#createnote");
+        create.onclick = function (e) {
+            // check if everything is filled
+            if (content.value === "") {
+                alert(" you forgot to fill the Content of the note")
+                content.focus();
+            }
+            else if (date.value === "") {
+                alert("you forgot to fill the Date of the note")
+                date.focus();
+            }
+            else {
+                // creating the Note
+                let petek = new Object();
+
+                let content1 = content.value;
+                let date1 = date.value;
+                let time1 = time.value;
+                petek["content"] = content1;
+                petek["date"] = date1;
+                petek["time"] = time1;
+                petek["id"] = id;
+
+                let del = document.createElement("div");
+                let backgroundEl = document.createElement("div")
+                let contentEl = document.createElement("div");
+                let dateEl = document.createElement("div");
+                let timeEl = document.createElement("div");
+                backgroundEl.style.backgroundImage = "url(notebg.png) "
+                backgroundEl.style.width = "200px"
+                backgroundEl.style.height = "250px"
+                backgroundEl.style.backgroundRepeat = "no-repreat"
+                backgroundEl.style.position = "relative"
+                contentEl.style.width = "176px"
+                contentEl.style.height = "90px"
+                contentEl.style.marginTop = "50px"
+                contentEl.style.overflow = "auto"
+                contentEl.style.wordWrap = "break-word"
+                del.style.backgroundImage = "url(xrs.jpg)"
+                del.style.width = "20px"
+                del.style.height = "20px"
+                del.style.position = "absolute"
+                del.style.top = " 0 "
+                del.style.right = " 0 "
+                del.id = id
+                del.onclick = function () {
+                    window.confirm("you are about to delete this note ")
+                    del.parentElement.remove()
+                    localStorage.clear();
+                    Notes = Notes.filter(item => item.id !== parseInt(del.id))
+                    localStorage.setItem("all", JSON.stringify(Notes));
+                }
+
+                contentEl.innerHTML = `<span>${content1}<span>`
+                dateEl.innerHTML = `<p><strong><u>date :</strong></u>${date1}<p>`
+                timeEl.innerHTML = `<p><strong><u>time :</strong></u>${time1}<p>`
+                document.querySelector("#note").appendChild(backgroundEl)
+                backgroundEl.appendChild(del)
+                backgroundEl.appendChild(contentEl)
+                backgroundEl.appendChild(dateEl)
+                backgroundEl.appendChild(timeEl)
+                id++;
+
+                Notes.push(petek)
+            }
+            localStorage.setItem("all", JSON.stringify(Notes));
+        }
+        // loading all the petek back from local petek back 
+        window.onload = function (e) {
+            let temp = localStorage.getItem("all");
+            if (!temp) {
+                return;
+            }
+
+            Notes = JSON.parse(temp)
+            for (let i = 0; i < Notes.length; i++) {
+                let content1 = Notes[i].content
+                let date1 = Notes[i].date
+                let time1 = Notes[i].time
+                let id = Notes[i].id
+                let del = document.createElement("div");
+                let backgroundEl = document.createElement("div")
+                let contentEl = document.createElement("div");
+                let dateEl = document.createElement("div");
+                let timeEl = document.createElement("div");
+                backgroundEl.style.backgroundImage = "url(notebg.png) "
+                backgroundEl.style.width = "200px"
+                backgroundEl.style.height = "250px"
+                backgroundEl.style.backgroundRepeat = "no-repreat"
+                backgroundEl.style.position = "relative"
+                contentEl.style.width = "176px"
+                contentEl.style.height = "90px"
+                contentEl.style.marginTop = "50px"
+                contentEl.style.overflow = "auto"
+                contentEl.style.wordWrap = "break-word"
+                contentEl.innerHTML = `<span>${content1}<span>`
+                dateEl.innerHTML = `<p><strong><u>date :</strong></u>${date1}<p>`
+                timeEl.innerHTML = `<p><strong><u>time :</strong></u>${time1}<p>`
+                del.style.backgroundImage = "url(xrs.jpg)"
+                del.style.width = "20px"
+                del.style.height = "20px"
+                del.style.display = "inline -block"
+                del.style.position = "absolute"
+                del.style.top = " 0 "
+                del.style.right = " 0 "
+                del.id = id
+                del.onclick = function () {
+                    window.confirm("you are about to delete this note ")
+                    del.parentElement.remove()
+                    localStorage.clear();
+                    Notes = Notes.filter(item => item.id !== parseInt(del.id))
+                    localStorage.setItem("all", JSON.stringify(Notes));
+                }
+
+                document.querySelector("#note").appendChild(backgroundEl)
+                backgroundEl.appendChild(del)
+                backgroundEl.appendChild(contentEl)
+                backgroundEl.appendChild(dateEl)
+                backgroundEl.appendChild(timeEl)
+            }
+        }
+
+
+        //reset
+        reset = document.querySelector("#reset");
+        reset.onclick = function (e) {
+            content.value = "";
+            date.value = "";
+            time.value = "";
+        }
+
+    </script>
+</body>
+
+</html>
