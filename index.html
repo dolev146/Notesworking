@@ -170,14 +170,15 @@
 
 
                 del.onclick = function () {
-                    window.confirm("you are about to delete this note ")
-                    this.parentElement.remove()
-                    localStorage.removeItem("all");
-                    localStorage.setItem("counter", JSON.stringify(next_id))
-                    Notes = Notes.filter(item => item.id !== parseInt(del.id))
-                    localStorage.setItem("all", JSON.stringify(Notes));
+                    var check = window.confirm("you are about to delete this note ")
+                    if (check === true) {
+                        this.parentElement.remove()
+                        localStorage.removeItem("all");
+                        localStorage.setItem("counter", JSON.stringify(next_id))
+                        Notes = Notes.filter(item => item.id !== parseInt(del.id))
+                        localStorage.setItem("all", JSON.stringify(Notes));
+                    }
                 }
-
                 contentEl.innerHTML = `<span>${content1}<span>`
                 dateEl.innerHTML = `<p><strong><u>date :</strong></u>${date1}<p>`
                 timeEl.innerHTML = `<p><strong><u>time :</strong></u>${time1}<p>`
@@ -226,12 +227,14 @@
 
                 del.id = Notes[i].id
                 del.onclick = function () {
-                    window.confirm("you are about to delete this note ")
-                    this.parentElement.remove()
-                    localStorage.clear();
-                    Notes = Notes.filter(item => item.id !== parseInt(del.id))
-                    localStorage.setItem("all", JSON.stringify(Notes));
-                    localStorage.setItem("counter", JSON.stringify(next_id))
+                    var check = window.confirm("you are about to delete this note ")
+                    if (check === true) {
+                        this.parentElement.remove()
+                        localStorage.clear();
+                        Notes = Notes.filter(item => item.id !== parseInt(del.id))
+                        localStorage.setItem("all", JSON.stringify(Notes));
+                        localStorage.setItem("counter", JSON.stringify(next_id))
+                    }
                 }
 
                 document.querySelector("#note").appendChild(backgroundEl)
