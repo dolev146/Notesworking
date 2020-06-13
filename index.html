@@ -17,6 +17,9 @@
             font-family: 'Courier New', Courier, monospace;
             text-align: center;
             font-size: 4em;
+            display: block;
+            margin-top: 4%;
+            
         }
 
         /* outer div of the form */
@@ -76,11 +79,13 @@
 <body>
 
     <!-- heading of the webpage -->
-    <div><h1 id="heading">My Task`s Board</h1></div>
+    <!-- <div><h1 id="heading">My Task`s Board</h1></div> -->
+    <div id="heading"><img src="title.png" alt="title" width="40%"></div>
     
     <!-- inserting the data to the note -->
 
-    <div class="outer">
+    <div style="background-image: url(formbg.jpg); text-align: center; margin-bottom: 5%;" >
+        
         <div class="inner">
             <label for="content">insert content : </label><textarea id="content" name="dolev" rows="4"
                 cols="50%"></textarea>
@@ -91,8 +96,9 @@
         <div class="inner">
             <label for="time">insert time : </label><input type="time" id="time">
         </div>
-        <button id="createnote">create note</button>
-        <button id="reset">reset</button>
+
+        <button id="createnote" style="margin-top: 1%; margin-bottom: 0.3%;"><strong>create note</strong></button>
+        <button id="reset"><strong>reset</strong></button>
     </div>
 
 
