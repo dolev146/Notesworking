@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes</title>
     <style>
-
         /* background image */
         body {
             background-image: url("tile.jpg");
@@ -30,6 +29,14 @@
             margin-left: 50%;
             margin-top: 8%;
             transform: translateY(-50%) translateX(-50%);
+        }
+
+        .Notes {
+            background-image: url(notebg.png);
+            width: 200px;
+            height: 250px;
+            background-repeat: no-repeat;
+            position: relative
         }
 
         /* text-emphasis of the form */
@@ -63,20 +70,20 @@
             display: flex;
             position: relative;
         }
-
     </style>
 </head>
 
 <body>
 
     <!-- heading of the webpage -->
-    <h1 id="heading">My Task`s Board</h1>
+    <div><h1 id="heading">My Task`s Board</h1></div>
+    
     <!-- inserting the data to the note -->
 
     <div class="outer">
         <div class="inner">
             <label for="content">insert content : </label><textarea id="content" name="dolev" rows="4"
-                cols="100"></textarea>
+                cols="50%"></textarea>
         </div>
         <div class="inner">
             <label for="date">insert date : </label><input type="date" id="date">
@@ -96,7 +103,7 @@
     </div>
     <script>
         //creating note
-        let id = 0;
+        let next_id = 1;
         let Notes = [];
         let content = document.querySelector("#content");
         let date = document.querySelector("#date")
@@ -122,18 +129,14 @@
                 petek["content"] = content1;
                 petek["date"] = date1;
                 petek["time"] = time1;
-                petek["id"] = id;
+                petek["id"] = next_id;
 
                 let del = document.createElement("div");
                 let backgroundEl = document.createElement("div")
                 let contentEl = document.createElement("div");
                 let dateEl = document.createElement("div");
                 let timeEl = document.createElement("div");
-                backgroundEl.style.backgroundImage = "url(notebg.png) "
-                backgroundEl.style.width = "200px"
-                backgroundEl.style.height = "250px"
-                backgroundEl.style.backgroundRepeat = "no-repreat"
-                backgroundEl.style.position = "relative"
+                backgroundEl.className = "Notes"
                 contentEl.style.width = "176px"
                 contentEl.style.height = "90px"
                 contentEl.style.marginTop = "50px"
@@ -145,11 +148,16 @@
                 del.style.position = "absolute"
                 del.style.top = " 0 "
                 del.style.right = " 0 "
-                del.id = id
+
+
+                del.id = next_id
+
+
                 del.onclick = function () {
                     window.confirm("you are about to delete this note ")
-                    del.parentElement.remove()
-                    localStorage.clear();
+                    this.parentElement.remove()
+                    localStorage.removeItem("all");
+                    localStorage.setItem("counter" , JSON.stringify(next_id))
                     Notes = Notes.filter(item => item.id !== parseInt(del.id))
                     localStorage.setItem("all", JSON.stringify(Notes));
                 }
@@ -162,11 +170,12 @@
                 backgroundEl.appendChild(contentEl)
                 backgroundEl.appendChild(dateEl)
                 backgroundEl.appendChild(timeEl)
-                id++;
+                next_id++;
 
                 Notes.push(petek)
             }
             localStorage.setItem("all", JSON.stringify(Notes));
+            localStorage.setItem("counter", JSON.stringify(next_id))
         }
         // loading all the petek back from local petek back 
         window.onload = function (e) {
@@ -174,23 +183,25 @@
             if (!temp) {
                 return;
             }
+            let temp2 = localStorage.getItem("counter");
+            if (!temp2) {
+                return;
+            }
+
+            next_id = JSON.parse(temp2)
 
             Notes = JSON.parse(temp)
+            
             for (let i = 0; i < Notes.length; i++) {
                 let content1 = Notes[i].content
                 let date1 = Notes[i].date
                 let time1 = Notes[i].time
-                let id = Notes[i].id
                 let del = document.createElement("div");
                 let backgroundEl = document.createElement("div")
                 let contentEl = document.createElement("div");
                 let dateEl = document.createElement("div");
                 let timeEl = document.createElement("div");
-                backgroundEl.style.backgroundImage = "url(notebg.png) "
-                backgroundEl.style.width = "200px"
-                backgroundEl.style.height = "250px"
-                backgroundEl.style.backgroundRepeat = "no-repreat"
-                backgroundEl.style.position = "relative"
+                backgroundEl.className = "Notes"
                 contentEl.style.width = "176px"
                 contentEl.style.height = "90px"
                 contentEl.style.marginTop = "50px"
@@ -206,13 +217,14 @@
                 del.style.position = "absolute"
                 del.style.top = " 0 "
                 del.style.right = " 0 "
-                del.id = id
+                del.id = Notes[i].id
                 del.onclick = function () {
                     window.confirm("you are about to delete this note ")
-                    del.parentElement.remove()
+                    this.parentElement.remove()
                     localStorage.clear();
                     Notes = Notes.filter(item => item.id !== parseInt(del.id))
                     localStorage.setItem("all", JSON.stringify(Notes));
+                    localStorage.setItem("counter" , JSON.stringify(next_id))
                 }
 
                 document.querySelector("#note").appendChild(backgroundEl)
@@ -220,6 +232,7 @@
                 backgroundEl.appendChild(contentEl)
                 backgroundEl.appendChild(dateEl)
                 backgroundEl.appendChild(timeEl)
+
             }
         }
 
