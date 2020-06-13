@@ -19,7 +19,7 @@
             font-size: 4em;
             display: block;
             margin-top: 4%;
-            
+
         }
 
         /* outer div of the form */
@@ -32,6 +32,14 @@
             margin-left: 50%;
             margin-top: 8%;
             transform: translateY(-50%) translateX(-50%);
+        }
+
+        .Content {
+            width: 176px;
+            height: 90px;
+            margin-top: 50px;
+            overflow: auto;
+            word-wrap: break-word;
         }
 
         .Notes {
@@ -73,6 +81,16 @@
             display: flex;
             position: relative;
         }
+
+        .delete {
+            background-image: url("xrs.jpg");
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 0;
+            right: 0;
+
+        }
     </style>
 </head>
 
@@ -81,11 +99,11 @@
     <!-- heading of the webpage -->
     <!-- <div><h1 id="heading">My Task`s Board</h1></div> -->
     <div id="heading"><img src="title.png" alt="title" width="40%"></div>
-    
+
     <!-- inserting the data to the note -->
 
-    <div style="background-image: url(formbg.jpg); text-align: center; margin-bottom: 5%;" >
-        
+    <div style="background-image: url(formbg.jpg); text-align: center; margin-bottom: 5%;">
+
         <div class="inner">
             <label for="content">insert content : </label><textarea id="content" name="dolev" rows="4"
                 cols="50%"></textarea>
@@ -143,17 +161,9 @@
                 let dateEl = document.createElement("div");
                 let timeEl = document.createElement("div");
                 backgroundEl.className = "Notes"
-                contentEl.style.width = "176px"
-                contentEl.style.height = "90px"
-                contentEl.style.marginTop = "50px"
-                contentEl.style.overflow = "auto"
-                contentEl.style.wordWrap = "break-word"
-                del.style.backgroundImage = "url(xrs.jpg)"
-                del.style.width = "20px"
-                del.style.height = "20px"
-                del.style.position = "absolute"
-                del.style.top = " 0 "
-                del.style.right = " 0 "
+                contentEl.className = "Content"
+                del.className = "delete"
+
 
 
                 del.id = next_id
@@ -163,7 +173,7 @@
                     window.confirm("you are about to delete this note ")
                     this.parentElement.remove()
                     localStorage.removeItem("all");
-                    localStorage.setItem("counter" , JSON.stringify(next_id))
+                    localStorage.setItem("counter", JSON.stringify(next_id))
                     Notes = Notes.filter(item => item.id !== parseInt(del.id))
                     localStorage.setItem("all", JSON.stringify(Notes));
                 }
@@ -197,7 +207,7 @@
             next_id = JSON.parse(temp2)
 
             Notes = JSON.parse(temp)
-            
+
             for (let i = 0; i < Notes.length; i++) {
                 let content1 = Notes[i].content
                 let date1 = Notes[i].date
@@ -208,21 +218,12 @@
                 let dateEl = document.createElement("div");
                 let timeEl = document.createElement("div");
                 backgroundEl.className = "Notes"
-                contentEl.style.width = "176px"
-                contentEl.style.height = "90px"
-                contentEl.style.marginTop = "50px"
-                contentEl.style.overflow = "auto"
-                contentEl.style.wordWrap = "break-word"
+                contentEl.className = "Content"
+                del.className = "delete"
                 contentEl.innerHTML = `<span>${content1}<span>`
                 dateEl.innerHTML = `<p><strong><u>date :</strong></u>${date1}<p>`
                 timeEl.innerHTML = `<p><strong><u>time :</strong></u>${time1}<p>`
-                del.style.backgroundImage = "url(xrs.jpg)"
-                del.style.width = "20px"
-                del.style.height = "20px"
-                del.style.display = "inline -block"
-                del.style.position = "absolute"
-                del.style.top = " 0 "
-                del.style.right = " 0 "
+
                 del.id = Notes[i].id
                 del.onclick = function () {
                     window.confirm("you are about to delete this note ")
@@ -230,7 +231,7 @@
                     localStorage.clear();
                     Notes = Notes.filter(item => item.id !== parseInt(del.id))
                     localStorage.setItem("all", JSON.stringify(Notes));
-                    localStorage.setItem("counter" , JSON.stringify(next_id))
+                    localStorage.setItem("counter", JSON.stringify(next_id))
                 }
 
                 document.querySelector("#note").appendChild(backgroundEl)
