@@ -89,7 +89,16 @@
             position: absolute;
             top: 0;
             right: 0;
+            transition: opacity 1s;
+            ;
+        }
 
+        .delete-fade-out {
+            opacity: 0;
+        }
+
+        .delete-fade-in {
+            opacity: 1;
         }
     </style>
 </head>
@@ -162,7 +171,7 @@
                 let timeEl = document.createElement("div");
                 backgroundEl.className = "Notes"
                 contentEl.className = "Content"
-                del.className = "delete"
+                del.classList = "delete delete-fade-out"
 
 
 
@@ -189,6 +198,12 @@
                 backgroundEl.appendChild(timeEl)
                 next_id++;
 
+                del.parentElement.addEventListener("mouseenter", (e) => ShowHideDeleteBtn(del))
+                del.parentElement.addEventListener("mouseleave", (e) => ShowHideDeleteBtn(del))
+                function ShowHideDeleteBtn(btn) {
+                    btn.classList.toggle("delete-fade-in");
+                    btn.classList.toggle("delete-fade-out");
+                }
                 Notes.push(petek)
             }
             localStorage.setItem("all", JSON.stringify(Notes));
@@ -220,7 +235,9 @@
                 let timeEl = document.createElement("div");
                 backgroundEl.className = "Notes"
                 contentEl.className = "Content"
-                del.className = "delete"
+                del.classList = "delete delete-fade-out"
+
+
                 contentEl.innerHTML = `<span>${content1}<span>`
                 dateEl.innerHTML = `<p><strong><u>date :</strong></u>${date1}<p>`
                 timeEl.innerHTML = `<p><strong><u>time :</strong></u>${time1}<p>`
@@ -243,6 +260,13 @@
                 backgroundEl.appendChild(dateEl)
                 backgroundEl.appendChild(timeEl)
 
+
+                del.parentElement.addEventListener("mouseenter", (e) => ShowHideDeleteBtn(del))
+                del.parentElement.addEventListener("mouseleave", (e) => ShowHideDeleteBtn(del))
+                function ShowHideDeleteBtn(btn) {
+                    btn.classList.toggle("delete-fade-in");
+                    btn.classList.toggle("delete-fade-out");
+                }
             }
         }
 
