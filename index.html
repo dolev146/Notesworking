@@ -47,8 +47,9 @@
             width: 200px;
             height: 250px;
             background-repeat: no-repeat;
-            position: relative
+            position: relative;
         }
+
 
         /* text-emphasis of the form */
         textarea {
@@ -90,7 +91,7 @@
             top: 0;
             right: 0;
             transition: opacity 1s;
-            ;
+            
         }
 
         .delete-fade-out {
@@ -196,6 +197,12 @@
                 backgroundEl.appendChild(contentEl)
                 backgroundEl.appendChild(dateEl)
                 backgroundEl.appendChild(timeEl)
+                backgroundEl.style.opacity = 0;
+                backgroundEl.style.transition = "opacity 1s"
+                setTimeout(() => { 
+                    backgroundEl.style.opacity = 1
+                } , 500)
+
                 next_id++;
 
                 del.parentElement.addEventListener("mouseenter", (e) => ShowHideDeleteBtn(del))
@@ -259,7 +266,11 @@
                 backgroundEl.appendChild(contentEl)
                 backgroundEl.appendChild(dateEl)
                 backgroundEl.appendChild(timeEl)
-
+                backgroundEl.style.opacity = 0;
+                backgroundEl.style.transition = "opacity 1s"
+                setTimeout(() => {
+                    backgroundEl.style.opacity = 1
+                }, 500)                
 
                 del.parentElement.addEventListener("mouseenter", (e) => ShowHideDeleteBtn(del))
                 del.parentElement.addEventListener("mouseleave", (e) => ShowHideDeleteBtn(del))
