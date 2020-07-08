@@ -88,10 +88,10 @@
             width: 20px;
             height: 20px;
             position: absolute;
-            top: 0;
-            right: 0;
+            top: 20;
+            right: 23;
             transition: opacity 1s;
-            
+
         }
 
         .delete-fade-out {
@@ -199,9 +199,9 @@
                 backgroundEl.appendChild(timeEl)
                 backgroundEl.style.opacity = 0;
                 backgroundEl.style.transition = "opacity 1s"
-                setTimeout(() => { 
+                setTimeout(() => {
                     backgroundEl.style.opacity = 1
-                } , 500)
+                }, 500)
 
                 next_id++;
 
@@ -270,7 +270,7 @@
                 backgroundEl.style.transition = "opacity 1s"
                 setTimeout(() => {
                     backgroundEl.style.opacity = 1
-                }, 500)                
+                }, 500)
 
                 del.parentElement.addEventListener("mouseenter", (e) => ShowHideDeleteBtn(del))
                 del.parentElement.addEventListener("mouseleave", (e) => ShowHideDeleteBtn(del))
